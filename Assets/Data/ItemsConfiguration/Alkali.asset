@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15bfeeb35aa462eae6849fd3cce1c80, type: 3}
+  m_Name: Alkali
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory.Data.ItemConfigurationData
+  <Definition>k__BackingField: {fileID: 11400000, guid: 26ba292fe3f73a545872df8c74600ac4, type: 2}
+  <Name>k__BackingField: Alkali
+  <Description>k__BackingField: 
+  <Tags>k__BackingField: 
+  _components:
+  - rid: 7693232860457599052
+  - rid: 7693232860457599053
+  references:
+    version: 2
+    RefIds:
+    - rid: 7693232860457599052
+      type: {class: StackData, ns: InventoryCode.Data.ItemConfigurationComponents, asm: Assembly-CSharp}
+      data:
+        StackSize: 10
+    - rid: 7693232860457599053
+      type: {class: EmbalmingData, ns: InventoryCode.Data.ItemConfigurationComponents, asm: Assembly-CSharp}
+      data:
+        WhiteSkullsAmount: 1
+        RedSkullsAmount: 1
