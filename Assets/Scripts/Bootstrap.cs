@@ -1,29 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using InventoryCode;
 using InventoryCode.Data;
-using InventoryCode.Data.ItemConfigurationComponents;
 using InventoryCode.Gameplay;
 using InventoryCode.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityPipeline.Microsoft.CodeAnalysis.CSharp.Syntax;
 
 public class Bootstrap : MonoBehaviour
 {
-	[SerializeField]
-	private ItemStackView _itemStackViewLeft;
+	private const int SlotCount = 12;
+	private const int ColumnCount = 4;
+	private const string ContainerAddress = "Container";
 
 	[SerializeField]
-	private ItemStackView _itemStackViewRight;
-
-	[SerializeField]
-	private ItemDefinitionData _itemDefinitionLeft;
-
-	[SerializeField]
-	private ItemDefinitionData _itemDefinitionRight;
-
+	private Transform _containersList;
 
 	private void Start()
 	{
@@ -32,71 +25,69 @@ public class Bootstrap : MonoBehaviour
 
 	private async UniTask InitAsync()
 	{
-		bool itemsWasAdded = await TryAddItemsDataToConfiguration();
-
-		if (!itemsWasAdded)
+		IList<ItemConfigurationData> configurations = await LoadConfigurations();
+		if (configurations == null)
 			return;
 
 		bool itemResourcesWasAdded = await TryAddItemsDataToResources();
-		
 		if (!itemResourcesWasAdded)
 			return;
 
-		_itemStackViewLeft.Bind(ItemsStackViewModel(_itemDefinitionLeft));
-		_itemStackViewRight.Bind(ItemsStackViewModel(_itemDefinitionRight));
+		Container container = new Container(GameplayTag.None, SlotCount);
+		GameObject prefab = await Addressables.LoadAssetAsync<GameObject>(ContainerAddress);
+		GameObject instance = Instantiate(prefab, _containersList);
+		ContainerView view = instance.GetComponent<ContainerView>();
+		view.SetColumnCount(ColumnCount);
 
-		ItemsStackViewModel ItemsStackViewModel(ItemDefinitionData itemDefinition)
-		{
-			ItemsStack stack = new ItemsStack();
-			if (itemDefinition)
-			{
-				ItemConfigurationData configuration =
-					ItemsConfiguration.Instance.GetItemConfigurationData(itemDefinition);
-				StackData stackData = (StackData)configuration.Components.First(i => i.GetType() == typeof(StackData));
-				stack.Setup(itemDefinition, stackData.StackSize);
-				stack.AddItem(stackData.StackSize);
-			}
+		ContainerViewModel viewModel = new ContainerViewModel();
+		viewModel.Bind(container);
+		view.Bind(viewModel);
 
-			ItemsStackViewModel itemsStackViewModel = new ItemsStackViewModel();
-			itemsStackViewModel.Bind(stack);
-			return itemsStackViewModel;
-		}
+		AddExistingItem(container, configurations, "Flour", 5);
+		AddExistingItem(container, configurations, "Alkali", 3);
+		AddExistingItem(container, configurations, "Collar", 1);
 	}
 
-	private async UniTask<bool> TryAddItemsDataToConfiguration()
+	private static void AddExistingItem(
+		Container container,
+		IList<ItemConfigurationData> configurations,
+		string itemName,
+		int amount)
+	{
+		ItemConfigurationData configuration = configurations.First(item => item.name == itemName);
+		container.AddItems(configuration.Definition, amount);
+	}
+
+	private async UniTask<IList<ItemConfigurationData>> LoadConfigurations()
 	{
 		AsyncOperationHandle<IList<ItemConfigurationData>> handle =
-			Addressables.LoadAssetsAsync<ItemConfigurationData>("ItemConfigData", true);
+			Addressables.LoadAssetsAsync<ItemConfigurationData>("ItemConfigData", null);
 
 		await handle.ToUniTask();
 
-		if (handle.Status == AsyncOperationStatus.Succeeded)
+		if (handle.Status != AsyncOperationStatus.Succeeded)
 		{
-			foreach (ItemConfigurationData itemConfigurationData in handle.Result)
-			{
-				ItemsConfiguration.Instance.AddItemConfiguration(itemConfigurationData);
-			}
-
-			return true;
+			Debug.LogError(handle.Status.ToString());
+			return null;
 		}
 
-		Debug.LogError(handle.Status.ToString());
-		return false;
+		foreach (ItemConfigurationData itemConfigurationData in handle.Result)
+			ItemsConfiguration.Instance.AddItemConfiguration(itemConfigurationData);
+
+		return handle.Result;
 	}
-	
+
 	private async UniTask<bool> TryAddItemsDataToResources()
 	{
 		AsyncOperationHandle<IList<ItemResources>> handle =
-			Addressables.LoadAssetsAsync<ItemResources>("ItemResources", true);
+			Addressables.LoadAssetsAsync<ItemResources>("ItemResources", null);
 
 		await handle.ToUniTask();
 
 		if (handle.Status == AsyncOperationStatus.Succeeded)
 		{
-			foreach (ItemResources itemConfigurationData in handle.Result)
-			{
-				ResourcesMap.Instance.BindAssets(itemConfigurationData);
-			}
+			foreach (ItemResources itemResources in handle.Result)
+				ResourcesMap.Instance.BindAssets(itemResources);
 
 			return true;
 		}

@@ -28,6 +28,13 @@ namespace InventoryCode.UI
 
 		public void SetupData(ItemsStack stack)
 		{
+			if (stack.IsEmpty() || stack.ItemId == null)
+			{
+				_image.Value = null;
+				_count.Value = string.Empty;
+				return;
+			}
+
 			var resources = ResourcesMap.Instance.GetItemResources(stack.ItemId);
 			_image.Value = resources.ItemIcon;
 			_count.Value = stack.Count.ToString();

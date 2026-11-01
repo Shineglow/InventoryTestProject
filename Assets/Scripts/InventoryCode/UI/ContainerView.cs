@@ -13,13 +13,41 @@ namespace InventoryCode.UI
 		private GridLayoutGroup gridLayoutGroup;
 
 		[SerializeField]
-		private List<ItemStackView> itemStackViews;
+		private List<ItemStackView> itemStackViews = new();
+
+		public void SetColumnCount(int columnCount)
+		{
+			if (gridLayoutGroup == null)
+				gridLayoutGroup = GetComponent<GridLayoutGroup>();
+
+			gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+			gridLayoutGroup.constraintCount = columnCount;
+		}
 
 		public void Bind(ContainerViewModel containerViewModel)
 		{
+			EnsureSlotViews(containerViewModel.ItemsViewModel.Count);
+
 			for (int i = 0; i < containerViewModel.ItemsViewModel.Count; i++)
-			{
 				itemStackViews[i].Bind(containerViewModel.ItemsViewModel[i]);
+		}
+
+		private void EnsureSlotViews(int count)
+		{
+			if (gridLayoutGroup == null)
+				gridLayoutGroup = GetComponent<GridLayoutGroup>();
+
+			if (itemStackViews.Count == 0)
+				itemStackViews.AddRange(GetComponentsInChildren<ItemStackView>(true));
+
+			ItemStackView template = itemStackViews[0];
+			Transform parent = template.transform.parent;
+
+			while (itemStackViews.Count < count)
+			{
+				ItemStackView copy = Instantiate(template, parent);
+				copy.name = template.name;
+				itemStackViews.Add(copy);
 			}
 		}
 	}

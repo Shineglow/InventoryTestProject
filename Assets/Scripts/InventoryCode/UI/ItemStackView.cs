@@ -28,6 +28,7 @@ namespace InventoryCode.UI
 		private void ChangeImage(Sprite newSprite)
 		{
 			icon.sprite = newSprite;
+			icon.enabled = newSprite != null;
 		}
 		
 		private void ChangeCount(string newSprite)

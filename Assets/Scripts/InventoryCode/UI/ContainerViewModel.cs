@@ -8,7 +8,7 @@ namespace InventoryCode.UI
 		private IGameContainer _container;
 
 		private ObservableList<ItemsStackViewModel> _itemsViewModel = new ObservableList<ItemsStackViewModel>();
-		public IReadOnlyObservableList<ItemsStackViewModel> ItemsViewModel;
+		public IReadOnlyObservableList<ItemsStackViewModel> ItemsViewModel => _itemsViewModel;
 
 		public void Bind(IGameContainer container)
 		{

@@ -57,6 +57,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - ItemResources
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c62a31ae2b6c38047830631cb2115653
+    m_Address: Container
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d6dee092cc12cf744a0ff9ee3625b754
     m_Address: Assets/Data/Flour.asset
     m_ReadOnly: 0

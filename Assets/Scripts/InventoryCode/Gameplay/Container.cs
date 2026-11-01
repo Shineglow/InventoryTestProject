@@ -62,22 +62,19 @@ namespace InventoryCode.Gameplay
 
 		private ItemsStack GetSlotForItem(ItemDefinitionData itemDefinition)
 		{
-			ItemsStack slot = null;
+			ItemsStack emptySlot = null;
 
 			for (int i = 0; i < _slots.Count; i++)
 			{
 				ItemsStack itemsStack = _slots[i];
-				if (itemsStack.ItemId == itemDefinition && itemsStack.Count != itemsStack.MaximumCount)
-				{
-					slot = itemsStack;
-					break;
-				}
+				if (itemsStack.ItemId == itemDefinition && itemsStack.Count < itemsStack.MaximumCount)
+					return itemsStack;
 
-				if (itemsStack.MaximumCount == 0)
-					slot = itemsStack;
+				if (emptySlot == null && itemsStack.IsEmpty())
+					emptySlot = itemsStack;
 			}
 
-			return slot;
+			return emptySlot;
 		}
 
 		private ObservableList<ItemsStack> MakeContainer(int containerSize)

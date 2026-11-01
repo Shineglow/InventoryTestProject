@@ -4,7 +4,7 @@ using UnityEngine;
 namespace InventoryCode.Data
 {
 	[CreateAssetMenu(menuName = "Create ItemDefinitionData", fileName = "ItemDefinitionData", order = 0)]
-	public class ItemDefinitionData : ScriptableObject
+	public class ItemDefinitionData : ScriptableObject, IEquatable<ItemDefinitionData>
 	{
 		[SerializeField]
 		private string _entityId;
@@ -13,8 +13,13 @@ namespace InventoryCode.Data
 
 		public static bool operator ==(ItemDefinitionData a, ItemDefinitionData b)
 		{
-			if (a == b) return true;
-			if (!a || !b) return false;
+			// Cast picks UnityEngine.Object.==, which sees a destroyed asset as missing
+			// and does not call ItemDefinitionData.== again.
+			bool aMissing = (UnityEngine.Object)a == null;
+			bool bMissing = (UnityEngine.Object)b == null;
+			if (aMissing || bMissing)
+				return aMissing && bMissing;
+
 			return a.EntityId == b.EntityId;
 		}
 
@@ -23,22 +28,22 @@ namespace InventoryCode.Data
 			return !(a == b);
 		}
 
-		private bool Equals(ItemDefinitionData other)
+		public bool Equals(ItemDefinitionData other)
 		{
-			return base.Equals(other) && _entityId == other._entityId;
+			return this == other;
 		}
 
 		public override bool Equals(object obj)
 		{
-			if (obj is null) return false;
-			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != GetType()) return false;
-			return Equals((ItemDefinitionData)obj);
+			return Equals(obj as ItemDefinitionData);
 		}
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(base.GetHashCode(), _entityId);
+			if ((UnityEngine.Object)this == null || _entityId == null)
+				return 0;
+
+			return _entityId.GetHashCode();
 		}
 
 		#if UNITY_EDITOR
