@@ -22,6 +22,11 @@ namespace InventoryCode.Gameplay
 			_slots = MakeContainer(containerSize);
 		}
 
+		public bool ContainsIndex(int index)
+		{
+			return index >= 0 && index < _slots.Count;
+		}
+
 		public int AddItems(ItemDefinitionData itemDefinition, int amount)
 		{
 			if(!IsItemFitContainerFilter(itemDefinition))

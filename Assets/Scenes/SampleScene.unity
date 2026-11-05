@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
   _containersList: {fileID: 1419395079}
+  _cursorActions: {fileID: -944628639613478452, guid: f8b87d39e5ecb23408cded2172a7c0c1, type: 3}
 --- !u!4 &232853865
 Transform:
   m_ObjectHideFlags: 0

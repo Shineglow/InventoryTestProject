@@ -7,6 +7,7 @@ using InventoryCode.Gameplay;
 using InventoryCode.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class Bootstrap : MonoBehaviour
@@ -19,10 +20,14 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField]
 	private Transform _containersList;
 
+	[SerializeField]
+	private InputActionAsset _cursorActions;
+
 	private CellCursor _cursor;
 	private CellCursorViewModel _cursorViewModel;
 	private CellCursorView _cursorView;
 	private CellCursorHover _hover;
+	private CellCursorDirection _direction;
 
 	private void Start()
 	{
@@ -59,14 +64,17 @@ public class Bootstrap : MonoBehaviour
 		for (int i = 0; i < slots.Count; i++)
 			map.BindWorldWithIndex(slots[i], i);
 
+		CellPlane plane = new CellPlane(container, view.ColumnCount);
 		_cursor = new CellCursor();
 		_cursorViewModel = new CellCursorViewModel();
 		_cursorViewModel.Bind(_cursor);
 		_cursorView = new CellCursorView(map, cursorViewPrefab);
 		_cursorView.Bind(_cursorViewModel);
 		_hover = new CellCursorHover();
-		_hover.Bind(slots, map, _cursor);
-		_cursor.SetIndex(0);
+		_hover.Bind(slots, map, plane, _cursor);
+		_direction = new CellCursorDirection(plane, _cursor, _cursorActions);
+		if (plane.Place(0, out int start))
+			_cursor.SetIndex(start);
 
 		AddExistingItem(container, configurations, "Flour", 5);
 		AddExistingItem(container, configurations, "Alkali", 3);

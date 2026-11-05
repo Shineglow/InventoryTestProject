@@ -8,11 +8,17 @@ namespace InventoryCode.UI
 	{
 		private readonly CompositeDisposable _disposable = new();
 		private CellIndexMap _map;
+		private CellPlane _plane;
 		private CellCursor _cursor;
 
-		public void Bind(IReadOnlyList<ItemStackView> slots, CellIndexMap map, CellCursor cursor)
+		public void Bind(
+			IReadOnlyList<ItemStackView> slots,
+			CellIndexMap map,
+			CellPlane plane,
+			CellCursor cursor)
 		{
 			_map = map;
+			_plane = plane;
 			_cursor = cursor;
 			_disposable.Clear();
 
@@ -30,7 +36,10 @@ namespace InventoryCode.UI
 			if (!_map.WorldToIndex(view, out int index))
 				return;
 
-			_cursor.SetIndex(index);
+			if (!_plane.Place(index, out int accepted))
+				return;
+
+			_cursor.SetIndex(accepted);
 		}
 	}
 }
