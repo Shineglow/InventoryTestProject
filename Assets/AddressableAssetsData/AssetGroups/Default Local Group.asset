@@ -62,6 +62,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d327a7fdf5996bd44bafc36c8c8c3950
+    m_Address: CellIndexMark
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d6dee092cc12cf744a0ff9ee3625b754
     m_Address: Assets/Data/Flour.asset
     m_ReadOnly: 0

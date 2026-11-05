@@ -15,14 +15,23 @@ namespace InventoryCode.UI
 		[SerializeField]
 		private List<ItemStackView> itemStackViews = new();
 
+		public int ColumnCount => gridLayoutGroup.constraintCount;
+
+		private void Awake()
+		{
+			gridLayoutGroup = GetComponent<GridLayoutGroup>();
+
+			if (itemStackViews.Count == 0)
+				itemStackViews.AddRange(GetComponentsInChildren<ItemStackView>(true));
+		}
+
 		public void SetColumnCount(int columnCount)
 		{
-			if (gridLayoutGroup == null)
-				gridLayoutGroup = GetComponent<GridLayoutGroup>();
-
 			gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
 			gridLayoutGroup.constraintCount = columnCount;
 		}
+
+		public IReadOnlyList<ItemStackView> SlotViews => itemStackViews;
 
 		public void Bind(ContainerViewModel containerViewModel)
 		{
@@ -34,12 +43,6 @@ namespace InventoryCode.UI
 
 		private void EnsureSlotViews(int count)
 		{
-			if (gridLayoutGroup == null)
-				gridLayoutGroup = GetComponent<GridLayoutGroup>();
-
-			if (itemStackViews.Count == 0)
-				itemStackViews.AddRange(GetComponentsInChildren<ItemStackView>(true));
-
 			ItemStackView template = itemStackViews[0];
 			Transform parent = template.transform.parent;
 
