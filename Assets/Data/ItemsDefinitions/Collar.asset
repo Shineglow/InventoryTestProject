@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ccc8b275af4f1383548e89731c1929, type: 3}
+  m_Name: Collar
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory.ItemDefinitionData
+  _name: Collar
+  _entityId: be70bee7-0019-4978-9adb-748b95e2962f
+  _tegs: 02000000

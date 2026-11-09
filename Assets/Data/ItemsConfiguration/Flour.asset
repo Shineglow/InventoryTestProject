@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15bfeeb35aa462eae6849fd3cce1c80, type: 3}
+  m_Name: Flour
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory.Data.ItemConfigurationData
+  <Definition>k__BackingField: {fileID: 11400000, guid: 611bd93f3a3452a48947f34aabf3776e, type: 2}
+  <Name>k__BackingField: Flour
+  <Description>k__BackingField: 
+  <Tags>k__BackingField: 
+  _components:
+  - rid: 7693232860457599047
+  - rid: 7693232860457599048
+  - rid: 7693232860457599049
+  references:
+    version: 2
+    RefIds:
+    - rid: 7693232860457599047
+      type: {class: StackData, ns: InventoryCode.Data.ItemConfigurationComponents, asm: Assembly-CSharp}
+      data:
+        StackSize: 99
+    - rid: 7693232860457599048
+      type: {class: PriceData, ns: InventoryCode.Data.ItemConfigurationComponents, asm: Assembly-CSharp}
+      data:
+        GoldAmount: 0
+        SilverAmount: 0
+        BronzeAmount: 2
+    - rid: 7693232860457599049
+      type: {class: AlchemyIngredientData, ns: InventoryCode.Data.ItemConfigurationComponents, asm: Assembly-CSharp}
+      data:
+        RedRunsAmount: 0
+        GreenRunsAmount: 2
+        BlueRunsAmount: 0

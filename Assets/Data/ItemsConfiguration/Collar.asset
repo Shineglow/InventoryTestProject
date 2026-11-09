@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15bfeeb35aa462eae6849fd3cce1c80, type: 3}
+  m_Name: Collar
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory.Data.ItemConfigurationData
+  <Definition>k__BackingField: {fileID: 11400000, guid: 421668916f7a2e248970ba965eb8bf52, type: 2}
+  <Name>k__BackingField: Collar
+  <Description>k__BackingField: 
+  <Tags>k__BackingField: 
+  _components:
+  - rid: 7693232860457599050
+  - rid: 7693232860457599051
+  references:
+    version: 2
+    RefIds:
+    - rid: 7693232860457599050
+      type: {class: CollarData, ns: InventoryCode.Data.ItemConfigurationComponents, asm: Assembly-CSharp}
+      data:
+        MinimumRedSkullsAmount: 1
+        MaximumRedSkullsAmount: 5
+    - rid: 7693232860457599051
+      type: {class: StackData, ns: InventoryCode.Data.ItemConfigurationComponents, asm: Assembly-CSharp}
+      data:
+        StackSize: 10
